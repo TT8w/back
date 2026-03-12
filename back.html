@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="N.ERA Backend Dashboard - Real-time monitoring and safety management for VI users and carers">
+  <title>N.ERA Backend Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="login-screen" class="screen active">
+    <div class="login-container">
+      <div class="login-header">
+        <h1 class="logo">N.ERA</h1>
+        <p class="tagline">Real-time Safety &amp; Monitoring Platform</p>
+      </div>
+      
+      <form id="login-form" class="login-form">
+        <div class="form-group">
+          <label for="login-email" class="form-label">Email or Username</label>
+          <input type="text" id="login-email" class="form-input" required aria-required="true" autocomplete="username">
+        </div>
+        
+        <div class="form-group">
+          <label for="login-password" class="form-label">Password</label>
+          <input type="password" id="login-password" class="form-input" required aria-required="true" autocomplete="current-password">
+        </div>
+        
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember-me">
+            <span>Remember Me</span>
+          </label>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-full-width">Login</button>
+        
+        <div class="demo-accounts">
+          <p class="demo-title">Quick Demo Access:</p>
+          <button type="button" class="btn btn-secondary btn-full-width" id="demo-vi-user">VI User Demo</button>
+          <button type="button" class="btn btn-secondary btn-full-width" id="demo-carer">Carer Demo</button>
+        </div>
+        
+        <div class="login-links">
+          <a href="#" class="login-link">Forgot Password?</a>
+          <a href="#" class="login-link">Sign Up</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- VI User Dashboard -->
+  <div id="vi-dashboard" class="screen vi-user-layout">
+    <header class="vi-header">
+      <div class="vi-greeting">
+        <h1 id="vi-welcome">Welcome, Sarah</h1>
+        <div class="vi-status">
+          <span class="status-indicator online"></span>
+          <span>Connected</span>
+        </div>
+      </div>
+      <button class="btn-icon" id="vi-settings" aria-label="Settings">
+        <span class="icon">⚙️</span>
+      </button>
+    </header>
+    
+    <main class="vi-content">
+      <button class="emergency-button" id="sos-button" aria-label="Emergency SOS">
+        <span class="icon">🚨</span>
+        <span class="text">EMERGENCY SOS</span>
+      </button>
+      
+      <section class="vi-panel ai-identifier-panel">
+        <h2 class="vi-panel-title">AI Object Identifier</h2>
+        <button class="identify-button" id="identify-button" aria-label="Identify Object">
+          <span class="icon">📸</span>
+          <span class="text">IDENTIFY OBJECT</span>
+        </button>
+        <p class="identifier-description">Point your camera at money, clothing, text, or daily objects to identify them</p>
+        
+        <div class="identification-result" id="identification-result" style="display: none;">
+          <div class="result-header">
+            <h3 id="result-title">Identification Result</h3>
+            <button class="btn-icon" id="close-result" aria-label="Close">✕</button>
+          </div>
+          <div class="result-image" id="result-image">📷</div>
+          <div class="result-text" id="result-text"></div>
+          <div class="result-confidence" id="result-confidence"></div>
+          <div class="result-actions">
+            <button class="btn btn-primary" id="identify-another">Identify Another</button>
+            <button class="btn btn-secondary" id="save-identification">Save to Notes</button>
+          </div>
+        </div>
+        
+        <div class="identification-history" id="identification-history">
+          <h3>Recent Identifications</h3>
+          <div class="history-list" id="history-list">
+            <div class="history-item">
+              <span class="history-icon">💵</span>
+              <span class="history-text">HKD $100 bill</span>
+              <span class="history-time">2 min ago</span>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="vi-panel">
+        <h2 class="vi-panel-title">Voice Assistant</h2>
+        <button class="voice-button" id="voice-activate" aria-label="Tap to speak">
+          <span class="icon">🎤</span>
+          <span class="text">Tap to Speak</span>
+        </button>
+        
+        <div class="quick-commands">
+          <button class="quick-cmd-btn">Where am I?</button>
+          <button class="quick-cmd-btn">Call carer</button>
+          <button class="quick-cmd-btn">Route help</button>
+        </div>
+        
+        <div class="voice-transcript">
+          <p id="voice-transcript-text">Recent: "Where is the nearest accessible route?"</p>
+        </div>
+      </section>
+      
+      <section class="vi-panel">
+        <h2 class="vi-panel-title">Navigation</h2>
+        <button class="btn btn-primary btn-large">Start Journey</button>
+        <div class="location-display">
+          <span class="icon">📍</span>
+          <span id="current-location">Central, Hong Kong</span>
+        </div>
+        <div class="info-card">
+          <h3>Nearby Safe Routes</h3>
+          <p>3 accessible routes found within 500m</p>
+        </div>
+      </section>
+      
+      <section class="vi-panel">
+        <h2 class="vi-panel-title">Health &amp; Wellness</h2>
+        <div class="wellness-buttons">
+          <button class="wellness-btn good">😊 Good</button>
+          <button class="wellness-btn okay">😐 Okay</button>
+          <button class="wellness-btn help">😟 Need Help</button>
+        </div>
+        <div class="reminder-badge">💧 Hydration Reminder</div>
+      </section>
+      
+      <section class="vi-panel">
+        <h2 class="vi-panel-title">Subscription Status</h2>
+        <div class="subscription-info">
+          <p class="plan-name">Community Builder</p>
+          <p class="plan-days">265 days remaining</p>
+          <button class="btn btn-secondary">Renew Plan</button>
+        </div>
+      </section>
+      
+      <div class="vi-alerts">
+        <div class="alert-item">
+          <span class="icon">⚠️</span>
+          <span>Construction barrier ahead on Des Voeux Road</span>
+        </div>
+      </div>
+    </main>
+    
+    <button class="logout-btn" id="vi-logout">Logout</button>
+  </div>
+
+  <!-- Carer Dashboard -->
+  <div id="carer-dashboard" class="screen carer-layout">
+    <header class="carer-header">
+      <div class="header-left">
+        <h1 class="logo-small">N.ERA</h1>
+        <span class="header-title">Carer Dashboard</span>
+      </div>
+      <div class="header-center">
+        <span class="welcome-text">Welcome, <span id="carer-name">Mary Johnson</span></span>
+      </div>
+      <div class="header-right">
+        <button class="btn-icon notification-btn" aria-label="Notifications">
+          <span class="icon">🔔</span>
+          <span class="badge" id="notification-count">1</span>
+        </button>
+        <button class="btn-icon" id="carer-settings-btn" aria-label="Settings">
+          <span class="icon">⚙️</span>
+        </button>
+        <button class="btn btn-secondary" id="carer-logout">Logout</button>
+      </div>
+    </header>
+    
+    <div class="carer-main">
+      <aside class="sidebar" id="carer-sidebar">
+        <h2 class="sidebar-title">Navigation</h2>
+        <nav class="sidebar-nav">
+          <button class="sidebar-nav-btn active" data-section="dashboard">
+            <span class="icon">🏠</span>
+            <span>Dashboard</span>
+          </button>
+          <button class="sidebar-nav-btn" data-section="map">
+            <span class="icon">🗺️</span>
+            <span>Live Map</span>
+          </button>
+          <button class="sidebar-nav-btn" data-section="camera">
+            <span class="icon">📹</span>
+            <span>Camera Feed</span>
+          </button>
+          <button class="sidebar-nav-btn" data-section="users">
+            <span class="icon">👥</span>
+            <span>My Users</span>
+          </button>
+          <button class="sidebar-nav-btn" data-section="subscriptions">
+            <span class="icon">💳</span>
+            <span>Subscriptions</span>
+          </button>
+          <button class="sidebar-nav-btn" data-section="messages">
+            <span class="icon">💬</span>
+            <span>Messages</span>
+          </button>
+          <button class="sidebar-nav-btn" data-section="alerts">
+            <span class="icon">🚨</span>
+            <span>Alerts</span>
+          </button>
+          <button class="sidebar-nav-btn" data-section="reports">
+            <span class="icon">📊</span>
+            <span>Reports</span>
+          </button>
+          <button class="sidebar-nav-btn" data-section="settings">
+            <span class="icon">⚙️</span>
+            <span>Settings</span>
+          </button>
+        </nav>
+        
+        <h2 class="sidebar-title" style="margin-top: 32px;">Active Users</h2>
+        <div class="user-list" id="active-users-list">
+          <div class="user-item active" data-user-id="1">
+            <div class="user-avatar">SW</div>
+            <div class="user-details">
+              <div class="user-name-row">
+                <span class="name">Sarah Wong</span>
+                <span class="status-dot online"></span>
+              </div>
+              <div class="user-meta">
+                <span class="location">Central, HK</span>
+                <span class="time">2 min ago</span>
+              </div>
+              <div class="battery-indicator">
+                <span class="battery-icon">🔋</span>
+                <span class="battery-level">75%</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="user-item" data-user-id="2">
+            <div class="user-avatar">JL</div>
+            <div class="user-details">
+              <div class="user-name-row">
+                <span class="name">John Lee</span>
+                <span class="status-dot warning"></span>
+              </div>
+              <div class="user-meta">
+                <span class="location">Causeway Bay</span>
+                <span class="time">5 min ago</span>
+              </div>
+              <div class="battery-indicator low">
+                <span class="battery-icon">🔋</span>
+                <span class="battery-level">45%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </aside>
+      
+      <main class="content-area" id="main-content">
+        <!-- Dashboard Section -->
+        <section class="section-content active" id="dashboard-section">
+          <div class="stats-grid">
+            <div class="stat-card-large success">
+              <div class="stat-number">3</div>
+              <div class="stat-label">Total Users Monitored</div>
+            </div>
+            <div class="stat-card-large error">
+              <div class="stat-number">1</div>
+              <div class="stat-label">Active Alerts</div>
+            </div>
+            <div class="stat-card-large warning">
+              <div class="stat-number">1</div>
+              <div class="stat-label">Low Battery Users</div>
+            </div>
+            <div class="stat-card-large accent">
+              <div class="stat-number">1</div>
+              <div class="stat-label">Subscriptions Expiring Soon</div>
+            </div>
+          </div>
+          
+          <h2 class="section-title">User Status Cards</h2>
+          <div class="user-cards-grid" id="user-cards-grid">
+            <!-- User cards will be generated by JavaScript -->
+          </div>
+        </section>
+
+        <!-- Live Map Section -->
+        <section class="section-content" id="map-section">
+          <div class="map-header">
+            <h2 class="section-title">Live Map</h2>
+            <div class="map-header-controls">
+              <button class="btn btn-secondary" id="map-type-toggle">
+                <span id="map-type-icon">🛣️</span>
+                <span id="map-type-text">Street View</span>
+              </button>
+            </div>
+          </div>
+          
+          <div class="map-controls-bar">
+            <button class="btn-map" id="zoom-in-btn">+ Zoom In</button>
+            <button class="btn-map" id="zoom-out-btn">- Zoom Out</button>
+            <button class="btn-map" id="reset-map-btn">Reset Map</button>
+            <span class="zoom-indicator">Zoom Level: <span id="zoom-level">3</span>/10</span>
+          </div>
+          
+          <div class="map-container-large" id="live-map-container">
+            <div class="map-canvas" id="map-canvas">
+              <!-- Map pins generated by JS -->
+            </div>
+          </div>
+          
+          <div class="map-details-panel" id="map-details-panel" style="display: none;">
+            <h3>User Details</h3>
+            <div id="map-user-details"></div>
+          </div>
+        </section>
+
+        <!-- Camera Feed Section -->
+        <section class="section-content" id="camera-section">
+          <h2 class="section-title">Camera Feed</h2>
+          <div class="camera-layout">
+            <div class="camera-sidebar-left">
+              <h3 style="font-size: 16px; font-weight: 600; color: #111827; background: #F3F4F6; padding: 12px; margin: -20px -20px 16px -20px; border-radius: 12px 12px 0 0;">Select User:</h3>
+              <div class="camera-user-select" id="camera-user-select">
+                <!-- User selection cards -->
+              </div>
+            </div>
+            
+            <div class="camera-main">
+              <div class="camera-display">
+                <div class="camera-live-indicator">🔴 LIVE</div>
+                <div class="camera-timestamp" id="camera-live-timestamp">Nov 10, 2025 1:45 AM</div>
+                <div class="camera-feed-placeholder" id="camera-feed-display">
+                  <div class="camera-icon-big">📹</div>
+                  <p>Select a user to view camera feed</p>
+                </div>
+                <div class="camera-user-info" id="camera-user-info"></div>
+              </div>
+              
+              <div class="camera-controls">
+                <div class="control-row">
+                  <button class="btn-camera recording-btn" id="record-btn">⏺️ START RECORDING</button>
+                  <button class="btn-camera screenshot" id="screenshot-btn">📸 SCREENSHOT</button>
+                  <button class="btn-camera" id="fullscreen-btn">🖥️ FULL SCREEN</button>
+                  <button class="btn-camera" id="camera-settings-btn">⚙️ SETTINGS</button>
+                </div>
+                <div class="control-row">
+                  <label style="font-weight: 600; font-size: 14px; color: #111827; margin-right: 8px;">Zoom Level:</label>
+                  <button class="btn-icon-small" id="zoom-dec">−</button>
+                  <input type="range" id="camera-zoom" min="1" max="4" step="0.1" value="1" />
+                  <button class="btn-icon-small" id="zoom-inc">+</button>
+                  <span id="zoom-display" style="font-weight: 600; font-size: 16px; color: #0052CC; min-width: 60px; text-align: center;">1.0x</span>
+                </div>
+                <div class="control-row">
+                  <label style="font-weight: 600; font-size: 14px; color: #111827; margin-right: 8px;">Quality:</label>
+                  <select id="quality-selector" class="form-select">
+                    <option value="1080p" selected>HD 1080p</option>
+                    <option value="1440p">Full HD 1440p</option>
+                    <option value="4k">4K 2160p</option>
+                  </select>
+                  <label style="font-weight: 600; font-size: 14px; color: #111827; margin: 0 8px;">Mode:</label>
+                  <button class="btn-toggle" id="night-mode-btn">☀️ Day Mode</button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="camera-sidebar-right">
+              <h3 style="font-size: 16px; font-weight: 600; color: #111827; background: #F3F4F6; padding: 12px; margin: -20px -20px 16px -20px; border-radius: 12px 12px 0 0;">Controls &amp; Alerts</h3>
+              <div style="margin-bottom: 16px;">
+                <h4 style="font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 8px;">Live Alerts</h4>
+              </div>
+              <div id="camera-alerts-feed">
+                <p class="text-muted" style="color: #6B7280; font-size: 12px;">Select a user to view alerts</p>
+              </div>
+              
+              <div class="camera-actions">
+                <button class="btn btn-primary btn-full-width" style="background: #0052CC; color: #FFFFFF; font-weight: 600; padding: 12px 16px;">📞 CALL USER</button>
+                <button class="btn btn-primary btn-full-width" style="background: #DC2626; color: #FFFFFF; font-weight: 600; padding: 12px 16px;">🚨 EMERGENCY ALERT</button>
+                <button class="btn btn-primary btn-full-width" style="background: #6B7280; color: #FFFFFF; font-weight: 600; padding: 12px 16px;">📋 VIEW PROFILE</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- My Users Section -->
+        <section class="section-content" id="users-section">
+          <h2 class="section-title">My Users</h2>
+          <div class="users-table-container">
+            <table class="users-table" id="users-table">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Status</th>
+                  <th>Location</th>
+                  <th>Battery</th>
+                  <th>Subscription Plan</th>
+                  <th>Expiry</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="users-table-body">
+                <!-- Generated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Subscriptions Section -->
+        <section class="section-content" id="subscriptions-section">
+          <h2 class="section-title">Subscriptions Management</h2>
+          <div class="subscription-controls">
+            <button class="btn btn-secondary" id="bulk-renew-btn">Bulk Renew</button>
+            <button class="btn btn-secondary" id="send-reminder-btn">Send Renewal Reminder</button>
+          </div>
+          <div class="subscription-table-container">
+            <table class="subscription-table-full" id="subscription-table">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" id="select-all-subs" /></th>
+                  <th>User Name</th>
+                  <th>Plan</th>
+                  <th>Price</th>
+                  <th>Days Remaining</th>
+                  <th>Renewal Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="subscription-table-body">
+                <!-- Generated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Messages Section -->
+        <section class="section-content" id="messages-section">
+          <div class="messages-layout">
+            <div class="messages-sidebar">
+              <button class="btn btn-primary btn-full-width" id="new-message-btn">New Message</button>
+              <input type="search" class="form-input" id="search-conversations" placeholder="Search conversations..." />
+              <div class="conversations-list" id="conversations-list">
+                <!-- Generated by JS -->
+              </div>
+            </div>
+            
+            <div class="messages-main">
+              <div class="message-header" id="message-header">
+                <h3>Select a conversation</h3>
+              </div>
+              <div class="message-thread" id="message-thread">
+                <!-- Messages displayed here -->
+              </div>
+              <div class="message-input-area">
+                <select id="preset-messages" class="form-select">
+                  <option value="">Quick Messages...</option>
+                  <option value="Safe to continue">Safe to continue</option>
+                  <option value="Heavy traffic ahead">Heavy traffic ahead</option>
+                  <option value="Weather warning">Weather warning</option>
+                  <option value="Please check in">Please check in</option>
+                  <option value="Barrier detected">Barrier detected</option>
+                </select>
+                <input type="text" class="form-input" id="message-input-field" placeholder="Type a message..." />
+                <button class="btn btn-primary" id="send-message-btn-main">Send</button>
+              </div>
+              <div class="message-extra-actions">
+                <button class="btn btn-secondary" id="call-user-msg-btn">📞 Call User</button>
+                <button class="btn-camera-action error" id="emergency-msg-btn">🚨 Emergency Alert</button>
+                <button class="btn btn-secondary" id="view-profile-msg-btn">📋 View Profile</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Alerts Section -->
+        <section class="section-content" id="alerts-section">
+          <h2 class="section-title">Alerts &amp; Notifications</h2>
+          <div class="alerts-filters">
+            <select id="alert-filter-severity" class="form-select">
+              <option value="all">Show: All</option>
+              <option value="critical">Critical</option>
+              <option value="warning">Warning</option>
+              <option value="info">Info</option>
+            </select>
+            <select id="alert-filter-user" class="form-select">
+              <option value="all">User: All Users</option>
+              <option value="1">Sarah Wong</option>
+              <option value="2">John Lee</option>
+              <option value="3">Emily Chen</option>
+            </select>
+            <input type="date" class="form-input" id="alert-date-from" />
+            <input type="date" class="form-input" id="alert-date-to" />
+          </div>
+          <div class="alerts-list-container" id="alerts-list-main">
+            <!-- Alert cards generated by JS -->
+          </div>
+        </section>
+
+        <!-- Reports Section -->
+        <section class="section-content" id="reports-section">
+          <h2 class="section-title">Analytics &amp; Reports</h2>
+          <div class="reports-controls">
+            <label>From:</label>
+            <input type="date" class="form-input" id="report-date-from" />
+            <label>To:</label>
+            <input type="date" class="form-input" id="report-date-to" />
+            <button class="btn btn-primary" id="generate-report-btn">Generate Report</button>
+            <button class="btn btn-secondary" id="export-pdf-btn">Export as PDF</button>
+          </div>
+          
+          <div class="charts-grid">
+            <div class="chart-container">
+              <h3>Daily Activity</h3>
+              <canvas id="daily-activity-chart"></canvas>
+            </div>
+            <div class="chart-container">
+              <h3>Weekly Movement Pattern</h3>
+              <canvas id="weekly-pattern-chart"></canvas>
+            </div>
+          </div>
+          
+          <div class="report-tables">
+            <h3>User Statistics</h3>
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Total Distance</th>
+                  <th>Avg Duration</th>
+                  <th>Stops</th>
+                  <th>Active Days</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sarah Wong</td>
+                  <td>45 km</td>
+                  <td>3 hrs/day</td>
+                  <td>12</td>
+                  <td>7 days</td>
+                </tr>
+                <tr>
+                  <td>John Lee</td>
+                  <td>32 km</td>
+                  <td>2 hrs/day</td>
+                  <td>8</td>
+                  <td>5 days</td>
+                </tr>
+                <tr>
+                  <td>Emily Chen</td>
+                  <td>55 km</td>
+                  <td>4 hrs/day</td>
+                  <td>15</td>
+                  <td>7 days</td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h3 style="margin-top: 24px;">Emergency Response Times</h3>
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>User</th>
+                  <th>Alert Type</th>
+                  <th>Response Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Nov 10</td>
+                  <td>Sarah Wong</td>
+                  <td>SOS</td>
+                  <td>2 min 34 sec</td>
+                </tr>
+                <tr>
+                  <td>Nov 9</td>
+                  <td>John Lee</td>
+                  <td>Geofence Breach</td>
+                  <td>1 min 15 sec</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section class="section-content" id="settings-section">
+          <h2 class="section-title">Settings</h2>
+          <div class="settings-tabs">
+            <button class="settings-tab-btn active" data-settings-tab="profile">Profile</button>
+            <button class="settings-tab-btn" data-settings-tab="notifications">Notifications</button>
+            <button class="settings-tab-btn" data-settings-tab="privacy">Privacy</button>
+            <button class="settings-tab-btn" data-settings-tab="accessibility">Accessibility</button>
+            <button class="settings-tab-btn" data-settings-tab="about">About</button>
+          </div>
+          
+          <div class="settings-content active" id="profile-settings">
+            <div class="form-group">
+              <label class="form-label">Name:</label>
+              <input type="text" class="form-input" id="settings-name" value="Mary Johnson" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email:</label>
+              <input type="email" class="form-input" id="settings-email" value="demo.carer@nera.hk" readonly />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phone:</label>
+              <input type="tel" class="form-input" id="settings-phone" value="+852 9876 5432" />
+            </div>
+            <button class="btn btn-primary" id="save-profile-btn">Save Changes</button>
+            <a href="#" class="settings-link">Change Password</a>
+          </div>
+          
+          <div class="settings-content" id="notifications-settings">
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" checked disabled />
+                <span>Emergency alerts (always on)</span>
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="geofence-alerts" checked />
+                <span>Geofence breach alerts</span>
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="battery-alerts" checked />
+                <span>Low battery alerts</span>
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="offline-alerts" checked />
+                <span>User offline alerts</span>
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="expiry-alerts" checked />
+                <span>Subscription expiry alerts</span>
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="message-notif" checked />
+                <span>Message notifications</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sound Alert:</label>
+              <select class="form-select" id="sound-alert">
+                <option value="default" selected>Default sound</option>
+                <option value="alert1">Alert 1</option>
+                <option value="alert2">Alert 2</option>
+                <option value="mute">Mute</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Notifications:</label>
+              <select class="form-select" id="email-notif">
+                <option value="all" selected>All alerts</option>
+                <option value="critical">Critical only</option>
+                <option value="never">Never</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" id="save-notifications-btn">Save Changes</button>
+          </div>
+          
+          <div class="settings-content" id="privacy-settings">
+            <p>Data sharing and privacy controls</p>
+            <div class="form-group">
+              <label class="form-label">Session Timeout:</label>
+              <select class="form-select" id="session-timeout">
+                <option value="15">15 minutes</option>
+                <option value="30" selected>30 minutes</option>
+                <option value="60">60 minutes</option>
+              </select>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="auto-logout" />
+                <span>Auto-logout when inactive</span>
+              </label>
+            </div>
+            <button class="btn btn-primary" id="save-privacy-btn">Save Changes</button>
+          </div>
+          
+          <div class="settings-content" id="accessibility-settings">
+            <div class="form-group">
+              <label class="form-label">Font Size: <span id="font-size-value">14px</span></label>
+              <input type="range" id="font-size-slider" min="12" max="20" value="14" />
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="high-contrast" />
+                <span>High Contrast Mode</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Color-blind Mode:</label>
+              <select class="form-select" id="colorblind-mode">
+                <option value="none" selected>None</option>
+                <option value="deuteranopia">Deuteranopia</option>
+                <option value="protanopia">Protanopia</option>
+                <option value="tritanopia">Tritanopia</option>
+              </select>
+            </div>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="dark-mode" />
+                <span>Dark Mode</span>
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Language:</label>
+              <select class="form-select" id="language-select">
+                <option value="en" selected>English</option>
+                <option value="zh">中文 (Chinese)</option>
+              </select>
+            </div>
+            <button class="btn btn-primary" id="save-accessibility-btn">Save Changes</button>
+          </div>
+          
+          <div class="settings-content" id="about-settings">
+            <h3>N.ERA Carer Dashboard</h3>
+            <p>Version 3.0.0</p>
+            <p>Production Ready - All Functions Operational</p>
+          </div>
+        </section>
+
+        <nav class="tab-nav" style="display:none;">
+          <button class="tab-btn active" data-tab="monitoring">Live Monitoring</button>
+          <button class="tab-btn" data-tab="camera">Camera Feed</button>
+          <button class="tab-btn" data-tab="subscriptions">Subscriptions</button>
+          <button class="tab-btn" data-tab="communication">Messages</button>
+          <button class="tab-btn" data-tab="alerts">Alerts</button>
+          <button class="tab-btn" data-tab="analytics">Analytics</button>
+        </nav>
+          <button class="tab-btn active" data-tab="monitoring">Live Monitoring</button>
+          <button class="tab-btn" data-tab="camera">Camera Feed</button>
+          <button class="tab-btn" data-tab="subscriptions">Subscriptions</button>
+          <button class="tab-btn" data-tab="communication">Messages</button>
+          <button class="tab-btn" data-tab="alerts">Alerts</button>
+          <button class="tab-btn" data-tab="analytics">Analytics</button>
+        </nav>
+        
+        <!-- Live Monitoring Tab -->
+        <div class="tab-content active" id="monitoring-tab">
+          <div class="monitoring-view-toggle">
+            <button class="view-toggle-btn active" data-view="gps">GPS Tracking</button>
+            <button class="view-toggle-btn" data-view="camera">Camera Feed</button>
+            <button class="view-toggle-btn" data-view="combined">Combined View</button>
+          </div>
+          
+          <!-- GPS View -->
+          <div class="monitoring-view active" id="gps-view">
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Real-Time GPS Tracking</h2>
+              <div class="map-controls">
+                <button class="btn-icon" aria-label="Zoom in">➕</button>
+                <button class="btn-icon" aria-label="Zoom out">➖</button>
+                <button class="btn-icon" aria-label="Center map">🎯</button>
+              </div>
+            </div>
+            <div class="map-container" id="live-map">
+              <div class="map-placeholder">
+                <div class="map-pin" style="top: 40%; left: 35%;" data-user="Sarah Wong" title="Click to select Sarah Wong">
+                  <div class="pin-marker online">📍</div>
+                  <div class="pin-label">Sarah Wong</div>
+                </div>
+                <div class="map-pin" style="top: 55%; left: 60%;" data-user="John Lee" title="Click to select John Lee">
+                  <div class="pin-marker warning">📍</div>
+                  <div class="pin-label">John Lee</div>
+                </div>
+              </div>
+              <div class="map-legend">
+                <span class="legend-item"><span class="legend-dot online"></span> Online</span>
+                <span class="legend-item"><span class="legend-dot warning"></span> Warning</span>
+                <span class="legend-item"><span class="legend-dot offline"></span> Offline</span>
+                <span class="legend-item"><span class="legend-dot emergency"></span> Emergency</span>
+              </div>
+            </div>
+            
+            <div class="panel-grid">
+            <div class="info-panel">
+              <h3 class="panel-subtitle">Selected User: Sarah Wong</h3>
+              <div class="info-row">
+                <span class="label">Current Location:</span>
+                <span class="value">Central District, Hong Kong</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Activity:</span>
+                <span class="value">Traveling to library</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Speed:</span>
+                <span class="value">3.2 km/h (Walking)</span>
+              </div>
+              <div class="info-row">
+                <span class="label">Battery:</span>
+                <span class="value" id="selected-user-battery">75%</span>
+              </div>
+              <div class="info-row">
+                <span class="label">ETA:</span>
+                <span class="value">15 minutes</span>
+              </div>
+              <div class="geofence-status">
+                <span class="status-badge success">Within Safe Zone</span>
+              </div>
+            </div>
+            
+            <div class="info-panel">
+              <h3 class="panel-subtitle">Route History (24h)</h3>
+              <div class="route-list">
+                <div class="route-item">
+                  <span class="route-time">14:30</span>
+                  <span class="route-location">Home → Library</span>
+                  <span class="route-distance">2.3 km</span>
+                </div>
+                <div class="route-item">
+                  <span class="route-time">12:15</span>
+                  <span class="route-location">Cafe → Home</span>
+                  <span class="route-distance">1.8 km</span>
+                </div>
+                <div class="route-item">
+                  <span class="route-time">09:00</span>
+                  <span class="route-location">Home → Cafe</span>
+                  <span class="route-distance">1.8 km</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          
+          <!-- Camera View -->
+          <div class="monitoring-view" id="camera-view">
+            <div class="camera-monitoring-layout">
+              <aside class="camera-user-sidebar">
+                <h3 class="sidebar-subtitle">Select User Camera</h3>
+                <div class="camera-user-list">
+                  <div class="camera-user-card active" data-camera-user="1">
+                    <div class="camera-thumbnail">
+                      <div class="thumbnail-placeholder">📹</div>
+                      <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="camera-user-info">
+                      <span class="camera-user-name">Sarah Wong</span>
+                      <span class="camera-status online">● Online</span>
+                    </div>
+                  </div>
+                  <div class="camera-user-card" data-camera-user="2">
+                    <div class="camera-thumbnail">
+                      <div class="thumbnail-placeholder">📹</div>
+                      <span class="live-badge">LIVE</span>
+                    </div>
+                    <div class="camera-user-info">
+                      <span class="camera-user-name">John Lee</span>
+                      <span class="camera-status online">● Online</span>
+                    </div>
+                  </div>
+                </div>
+              </aside>
+              
+              <div class="camera-main-feed">
+                <div class="panel">
+                  <div class="panel-header">
+                    <h2 class="panel-title">Real-Time 360° Camera Feed</h2>
+                    <div class="camera-badge-group">
+                      <span class="camera-quality-badge">HD 1080p</span>
+                      <span class="camera-connection-badge">4G Strong</span>
+                    </div>
+                  </div>
+                  <div class="live-camera-container">
+                    <div class="camera-feed-large">
+                      <div class="camera-placeholder-large">
+                        <div class="camera-icon-large">📹</div>
+                        <p class="camera-label">360° Live Camera Feed</p>
+                        <div class="simulated-video-feed"></div>
+                      </div>
+                      <div class="camera-overlay-controls">
+                        <div class="overlay-top">
+                          <span class="recording-indicator-large">🔴 LIVE</span>
+                          <span class="camera-timestamp" id="camera-timestamp">00:00:00</span>
+                        </div>
+                        <div class="overlay-bottom">
+                          <button class="camera-control-btn" id="take-snapshot">📸 Snapshot</button>
+                          <button class="camera-control-btn" id="toggle-record">⏺️ Record</button>
+                          <button class="camera-control-btn" id="fullscreen-toggle">⛶ Fullscreen</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="camera-controls-panel">
+                    <div class="control-group">
+                      <label class="control-label">Zoom</label>
+                      <input type="range" class="control-slider" min="1" max="5" value="1" step="0.1" id="zoom-slider">
+                      <span class="control-value" id="zoom-value">1.0x</span>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">Quality</label>
+                      <select class="form-select" id="quality-select">
+                        <option value="1080p" selected>1080p HD</option>
+                        <option value="720p">720p</option>
+                        <option value="4k">4K Ultra HD</option>
+                      </select>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label">Night Mode</label>
+                      <label class="toggle-switch">
+                        <input type="checkbox" id="night-mode-toggle">
+                        <span class="toggle-slider"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <aside class="camera-alerts-sidebar">
+                <h3 class="sidebar-subtitle">Camera Alerts</h3>
+                <div class="camera-alerts-list">
+                  <div class="camera-alert-item">
+                    <span class="alert-time">Just now</span>
+                    <span class="alert-text">Camera connected</span>
+                  </div>
+                  <div class="camera-alert-item">
+                    <span class="alert-time">2 min ago</span>
+                    <span class="alert-text">Recording started</span>
+                  </div>
+                </div>
+                <div class="camera-info-stats">
+                  <div class="stat-item">
+                    <span class="stat-label">Battery</span>
+                    <span class="stat-value">75%</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">Signal</span>
+                    <span class="stat-value">Strong</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-label">Storage</span>
+                    <span class="stat-value">23GB free</span>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </div>
+          
+          <!-- Combined View -->
+          <div class="monitoring-view" id="combined-view">
+            <div class="combined-layout">
+              <div class="combined-map">
+                <div class="panel">
+                  <div class="panel-header">
+                    <h2 class="panel-title">GPS Location</h2>
+                  </div>
+                  <div class="map-container" style="height: 400px;">
+                    <div class="map-placeholder">
+                      <div class="map-pin" style="top: 40%; left: 35%;" data-user="Sarah Wong">
+                        <div class="pin-marker online">📍</div>
+                        <div class="pin-label">Sarah Wong</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="combined-camera">
+                <div class="panel">
+                  <div class="panel-header">
+                    <h2 class="panel-title">Live Camera</h2>
+                  </div>
+                  <div class="camera-feed" style="height: 300px;">
+                    <div class="camera-placeholder">
+                      <div class="camera-icon">📹</div>
+                      <p>360° Camera Feed</p>
+                      <p class="camera-status">Live • HD Quality</p>
+                    </div>
+                    <div class="camera-overlay">
+                      <div class="camera-info">
+                        <span class="recording-indicator">🔴 LIVE</span>
+                        <span class="camera-quality">1080p</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Camera Feed Tab -->
+        <div class="tab-content" id="camera-tab">
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Real-Time Camera Feed</h2>
+              <div class="camera-controls">
+                <select class="form-select" id="camera-user-select">
+                  <option value="1">Sarah Wong</option>
+                  <option value="2">John Lee</option>
+                </select>
+                <button class="btn btn-secondary" id="snapshot-btn">
+                  <span class="icon">📸</span> Snapshot
+                </button>
+              </div>
+            </div>
+            <div class="camera-feed-container">
+              <div class="camera-feed">
+                <div class="camera-placeholder">
+                  <div class="camera-icon">📹</div>
+                  <p>360° Camera Feed</p>
+                  <p class="camera-status">Live • HD Quality</p>
+                </div>
+                <div class="camera-overlay">
+                  <div class="camera-info">
+                    <span class="recording-indicator">🔴 LIVE</span>
+                    <span class="camera-quality">1080p</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="camera-meta">
+              <div class="meta-item">
+                <span class="label">User:</span>
+                <span class="value">Sarah Wong</span>
+              </div>
+              <div class="meta-item">
+                <span class="label">Connection:</span>
+                <span class="value">Stable (4G)</span>
+              </div>
+              <div class="meta-item">
+                <span class="label">Last Update:</span>
+                <span class="value" id="camera-update-time">Just now</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Subscriptions Tab -->
+        <div class="tab-content" id="subscriptions-tab">
+          <div class="panel">
+            <h2 class="panel-title">Subscription Management</h2>
+            <div class="subscription-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Plan</th>
+                    <th>Days Remaining</th>
+                    <th>Renewal Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar-small">SW</div>
+                        <span>Sarah Wong</span>
+                      </div>
+                    </td>
+                    <td><span class="plan-badge community">Community Builder</span></td>
+                    <td>265 days</td>
+                    <td>2025-12-06</td>
+                    <td><span class="status-badge success">Active</span></td>
+                    <td>
+                      <button class="btn-icon" aria-label="Renew subscription">🔄</button>
+                      <button class="btn-icon" aria-label="View details">👁️</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="user-cell">
+                        <div class="user-avatar-small">JL</div>
+                        <span>John Lee</span>
+                      </div>
+                    </td>
+                    <td><span class="plan-badge premium">Premium Privacy</span></td>
+                    <td>20 days</td>
+                    <td>2025-11-30</td>
+                    <td><span class="status-badge warning">Expiring Soon</span></td>
+                    <td>
+                      <button class="btn-icon" aria-label="Renew subscription">🔄</button>
+                      <button class="btn-icon" aria-label="View details">👁️</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Communication Tab -->
+        <div class="tab-content" id="communication-tab">
+          <div class="panel-grid-2">
+            <div class="panel message-panel">
+              <h2 class="panel-title">Messages</h2>
+              <div class="message-list" id="message-list">
+                <div class="message-item received">
+                  <div class="message-avatar">SW</div>
+                  <div class="message-content">
+                    <div class="message-header">
+                      <span class="message-sender">Sarah Wong</span>
+                      <span class="message-time">10:32 AM</span>
+                    </div>
+                    <p class="message-text">I've reached the library safely. Thank you!</p>
+                  </div>
+                </div>
+                <div class="message-item sent">
+                  <div class="message-content">
+                    <div class="message-header">
+                      <span class="message-sender">You</span>
+                      <span class="message-time">10:15 AM</span>
+                    </div>
+                    <p class="message-text">Great! Be careful of the construction on Des Voeux Road.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="message-input-container">
+                <input type="text" class="message-input" placeholder="Type a message..." id="message-input">
+                <button class="btn btn-primary" id="send-message-btn">Send</button>
+              </div>
+            </div>
+            
+            <div class="panel">
+              <h3 class="panel-subtitle">Quick Messages</h3>
+              <div class="preset-messages">
+                <button class="preset-btn">Heavy traffic ahead</button>
+                <button class="preset-btn">Weather warning</button>
+                <button class="preset-btn">Barrier detected</button>
+                <button class="preset-btn">Please check in</button>
+              </div>
+              
+              <h3 class="panel-subtitle" style="margin-top: 24px;">Communication Tools</h3>
+              <button class="btn btn-secondary btn-full-width">
+                <span class="icon">📞</span> Voice Call
+              </button>
+              <button class="btn btn-secondary btn-full-width">
+                <span class="icon">📢</span> Broadcast to All
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Alerts Tab -->
+        <div class="tab-content" id="alerts-tab">
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Alerts &amp; Notifications</h2>
+              <button class="btn btn-secondary" id="clear-alerts-btn">Clear All</button>
+            </div>
+            <div class="alerts-list" id="alerts-list">
+              <div class="alert-card critical">
+                <div class="alert-icon">🚨</div>
+                <div class="alert-content">
+                  <div class="alert-header">
+                    <h3 class="alert-title">Emergency Alert</h3>
+                    <span class="alert-time">Just now</span>
+                  </div>
+                  <p class="alert-message">SOS activated by Sarah Wong at Central District</p>
+                  <div class="alert-user">User: Sarah Wong</div>
+                </div>
+                <div class="alert-actions">
+                  <button class="btn btn-primary">Respond</button>
+                  <button class="btn-icon" aria-label="Dismiss">✕</button>
+                </div>
+              </div>
+              
+              <div class="alert-card warning">
+                <div class="alert-icon">⚠️</div>
+                <div class="alert-content">
+                  <div class="alert-header">
+                    <h3 class="alert-title">Geofence Breach</h3>
+                    <span class="alert-time">5 min ago</span>
+                  </div>
+                  <p class="alert-message">John Lee left designated safe zone</p>
+                  <div class="alert-user">User: John Lee</div>
+                </div>
+                <div class="alert-actions">
+                  <button class="btn btn-secondary">View Location</button>
+                  <button class="btn-icon" aria-label="Dismiss">✕</button>
+                </div>
+              </div>
+              
+              <div class="alert-card warning">
+                <div class="alert-icon">🔋</div>
+                <div class="alert-content">
+                  <div class="alert-header">
+                    <h3 class="alert-title">Low Battery</h3>
+                    <span class="alert-time">10 min ago</span>
+                  </div>
+                  <p class="alert-message">John Lee's device battery below 20%</p>
+                  <div class="alert-user">User: John Lee</div>
+                </div>
+                <div class="alert-actions">
+                  <button class="btn btn-secondary">Notify User</button>
+                  <button class="btn-icon" aria-label="Dismiss">✕</button>
+                </div>
+              </div>
+              
+              <div class="alert-card info">
+                <div class="alert-icon">ℹ️</div>
+                <div class="alert-content">
+                  <div class="alert-header">
+                    <h3 class="alert-title">Subscription Expiring</h3>
+                    <span class="alert-time">1 hour ago</span>
+                  </div>
+                  <p class="alert-message">John Lee's subscription expires in 20 days</p>
+                  <div class="alert-user">User: John Lee</div>
+                </div>
+                <div class="alert-actions">
+                  <button class="btn btn-secondary">Renew</button>
+                  <button class="btn-icon" aria-label="Dismiss">✕</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Analytics Tab -->
+        <div class="tab-content" id="analytics-tab">
+          <div class="panel">
+            <h2 class="panel-title">Analytics &amp; Reports</h2>
+            
+            <div class="analytics-grid">
+              <div class="stat-card">
+                <div class="stat-icon">🚶</div>
+                <div class="stat-content">
+                  <div class="stat-value">12.4 km</div>
+                  <div class="stat-label">Total Distance Today</div>
+                </div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-content">
+                  <div class="stat-value">3.5 hrs</div>
+                  <div class="stat-label">Active Time</div>
+                </div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-icon">📍</div>
+                <div class="stat-content">
+                  <div class="stat-value">8</div>
+                  <div class="stat-label">Locations Visited</div>
+                </div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-icon">🚨</div>
+                <div class="stat-content">
+                  <div class="stat-value">0</div>
+                  <div class="stat-label">Emergency Alerts</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="chart-container">
+              <h3 class="panel-subtitle">Weekly Activity Pattern</h3>
+              <canvas id="activity-chart"></canvas>
+            </div>
+            
+            <div class="frequently-visited">
+              <h3 class="panel-subtitle">Frequently Visited Locations</h3>
+              <div class="location-list">
+                <div class="location-item">
+                  <span class="location-name">Hong Kong Central Library</span>
+                  <span class="visit-count">12 visits</span>
+                </div>
+                <div class="location-item">
+                  <span class="location-name">Times Square</span>
+                  <span class="visit-count">8 visits</span>
+                </div>
+                <div class="location-item">
+                  <span class="location-name">Victoria Park</span>
+                  <span class="visit-count">6 visits</span>
+                </div>
+              </div>
+            </div>
+            
+            <button class="btn btn-primary" id="export-report-btn">
+              <span class="icon">📊</span> Export Report
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Toast Notifications -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
